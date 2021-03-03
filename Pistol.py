@@ -13,6 +13,7 @@ class Pistol:
         self.owner = player
         self.pistolImage = pygame.image.load("Pistol.png").convert_alpha()
         self.bulletSpeed = 10
+        self.bullets = []
 
     def render(self, screen):
         if not self.owner:
@@ -33,15 +34,20 @@ class Pistol:
 
             screen.blit(rot_image, rot_image_rect.topleft)
 
+        for bullet in self.bullets:
+            bullet.render(screen)
+
     def update(self):
         if self.shootCountdown:
             self.shootCountdown -= 1
+        for bullet in self.bullets:
+            bullet.update()
 
-    def shoot(self, bullets):
+    def shoot(self):
         if not self.shootCountdown:
-            bullets.append(b.Bullet(self.x,
-                                    self.y,
-                                    self.bulletSpeed,
-                                    (0, 0, 0), pygame.mouse.get_pos(), 10)
-                           )
+            self.bullets.append(b.Bullet(self.x+20,
+                                         self.y,
+                                         self.bulletSpeed,
+                                         (0, 0, 0), pygame.mouse.get_pos(), 10)
+                                )
             self.shootCountdown = 30

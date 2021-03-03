@@ -9,7 +9,6 @@ class Game:
         self.window = w.Window(1280, 720)
         self.running = True
         self.player = p.Player(50, 50, 50, 50, (255, 200, 69))
-        self.bullets = []
 
     def run(self):
         while self.running:
@@ -25,7 +24,7 @@ class Game:
 
             if pygame.mouse.get_pressed(3)[0]:
                 if self.player.currentWeapon:
-                    self.player.currentWeapon.shoot(self.bullets)
+                    self.player.currentWeapon.shoot()
 
             self.window.screen.fill((255, 255, 255))
 
@@ -39,10 +38,6 @@ class Game:
 
     def render(self, screen):
         self.player.render(screen)
-        for bullet in self.bullets:
-            bullet.render(screen)
 
     def update(self):
         self.player.update()
-        for bullet in self.bullets:
-            bullet.update()

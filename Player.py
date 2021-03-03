@@ -13,8 +13,7 @@ class Player:
         self.speed = 5
         self.xChange = 0
         self.yChange = 0
-        self.currentWeapon = None
-            #p.Pistol(player=self)  # TODO: Weapon handling, weapon change
+        self.currentWeapon = p.Pistol(player=self)  # TODO: Weapon handling, weapon change
 
     def render(self, screen):
         pygame.draw.rect(screen, self.color, (self.x, self.y, self.width, self.height))
@@ -28,15 +27,15 @@ class Player:
             self.currentWeapon.update()
 
     def movement(self, keys):
-        if keys[pygame.K_LEFT]:
+        if keys[pygame.K_LEFT] or keys[pygame.K_a]:
             self.xChange = -self.speed
-        if keys[pygame.K_RIGHT]:
+        if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
             self.xChange = self.speed
-        if not (keys[pygame.K_LEFT] or keys[pygame.K_RIGHT]):
+        if not (keys[pygame.K_LEFT] or keys[pygame.K_RIGHT] or keys[pygame.K_d] or keys[pygame.K_a]):
             self.xChange = 0
-        if keys[pygame.K_UP]:
+        if keys[pygame.K_UP] or keys[pygame.K_w]:
             self.yChange = -self.speed
-        if keys[pygame.K_DOWN]:
+        if keys[pygame.K_DOWN] or keys[pygame.K_s]:
             self.yChange = self.speed
-        if not (keys[pygame.K_UP] or keys[pygame.K_DOWN]):
+        if not (keys[pygame.K_UP] or keys[pygame.K_DOWN] or keys[pygame.K_s] or keys[pygame.K_w]):
             self.yChange = 0
