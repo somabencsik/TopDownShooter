@@ -10,10 +10,11 @@ class Player:
         self.width = width
         self.height = height
         self.color = color
+        self.health = 100
         self.speed = 5
         self.xChange = 0
         self.yChange = 0
-        self.currentWeapon = p.Pistol(player=self)  # TODO: Weapon handling, weapon change
+        self.currentWeapon = p.Pistol(player=self)
 
     def render(self, screen):
         pygame.draw.rect(screen, self.color, (self.x, self.y, self.width, self.height))
@@ -25,6 +26,10 @@ class Player:
         self.y = self.y + self.yChange
         if self.currentWeapon:
             self.currentWeapon.update()
+
+    # TODO: More detailed hit: Shoot in head, middle, foot
+    def hit(self, damage):
+        self.health -= damage
 
     def movement(self, keys):
         if keys[pygame.K_LEFT] or keys[pygame.K_a]:

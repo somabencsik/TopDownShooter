@@ -40,12 +40,19 @@ class Pistol:
     def update(self):
         if self.shootCountdown:
             self.shootCountdown -= 1
+
         for bullet in self.bullets:
+            if bullet.x + bullet.rad / 2 < 0 \
+                    or bullet.x - bullet.rad / 2 > pygame.display.get_surface().get_width() \
+                    or bullet.y + bullet.rad / 2 < 0 \
+                    or bullet.y - bullet.rad / 2 > pygame.display.get_surface().get_height():
+                self.bullets.remove(bullet)
+
             bullet.update()
 
     def shoot(self):
         if not self.shootCountdown:
-            self.bullets.append(b.Bullet(self.x+20,
+            self.bullets.append(b.Bullet(self.x + 20,
                                          self.y,
                                          self.bulletSpeed,
                                          (0, 0, 0), pygame.mouse.get_pos(), 10)
