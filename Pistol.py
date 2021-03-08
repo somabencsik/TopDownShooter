@@ -11,25 +11,27 @@ class Pistol:
         self.y = y
         self.shootCountdown = 0
         self.owner = player
-        self.pistolImage = pygame.image.load("Pistol.png").convert_alpha()
+        self.pistolString = pygame.image.tostring(pygame.image.load("Pistol.png"), "RGB")
         self.bulletSpeed = 10
         self.bullets = []
 
     def render(self, screen):
         if not self.owner:
-            screen.blit(self.pistolImage, (self.x, self.y))
+            pistolImage = pygame.image.fromstring(self.pistolString, (40, 15), "RGB").convert_alpha()
+            screen.blit(pistolImage, (self.x, self.y))
         else:
+            pistolImage = pygame.image.fromstring(self.pistolString, (40, 15), "RGB").convert_alpha()
             self.x = self.owner.x + 25
             self.y = self.owner.y + 25
             pistolPos = (self.x, self.y)
-            pistolRect = self.pistolImage.get_rect(center=pistolPos)
+            pistolRect = pistolImage.get_rect(center=pistolPos)
             pistolRect[0] += 20
 
             mx, my = pygame.mouse.get_pos()
             dx, dy = mx - pistolRect.centerx, my - pistolRect.centery
             angle = math.degrees(math.atan2(-dy, dx))
 
-            rot_image = pygame.transform.rotate(self.pistolImage, angle)
+            rot_image = pygame.transform.rotate(pistolImage, angle)
             rot_image_rect = rot_image.get_rect(center=pistolRect.center)
 
             screen.blit(rot_image, rot_image_rect.topleft)

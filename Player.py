@@ -14,7 +14,7 @@ class Player:
         self.speed = 5
         self.xChange = 0
         self.yChange = 0
-        self.currentWeapon = None
+        self.currentWeapon = p.Pistol(player=self)
 
     def render(self, screen):
         pygame.draw.rect(screen, self.color, (self.x, self.y, self.width, self.height))

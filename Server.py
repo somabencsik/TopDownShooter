@@ -29,7 +29,7 @@ class Server:
         reply = ""
         while True:
             try:
-                data = pickle.loads(conn.recv(2048))
+                data = pickle.loads(conn.recv(2048 * 10))
                 self.players[player] = data
 
                 if not data:
