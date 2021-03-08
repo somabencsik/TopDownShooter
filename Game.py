@@ -1,6 +1,7 @@
 import Window as w
 import Player as p
 import GameManager as gm
+import NetworkManager as nm
 import pygame
 pygame.init()
 
@@ -9,7 +10,9 @@ class Game:
     def __init__(self):
         self.window = w.Window(1280, 720)
         self.running = True
-        self.player = p.Player(50, 50, 50, 50, (255, 200, 69))
+        self.network = nm.Network()
+        self.player = self.network.getP()
+        self.players = []
         self.weapons = []
 
     def run(self):
@@ -40,6 +43,11 @@ class Game:
 
     def render(self, screen):
         self.player.render(screen)
+        for player in self.players:
+            player.render(screen)
 
     def update(self):
+        self.players = self.network.send(self.player)
         self.player.update()
+        for player in self.players:
+            player.update()
