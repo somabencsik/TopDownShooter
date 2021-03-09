@@ -2,7 +2,6 @@ import socket
 from _thread import *
 import pickle
 import random as r
-import sys
 
 import Player as p
 
@@ -12,7 +11,7 @@ class Server:
         self.server = "192.168.1.43"
         self.port = 5555
         self.soc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.nextPlayer = 0
+        self.nextPlayer = 4
         self.players = []
 
         try:
@@ -24,7 +23,11 @@ class Server:
         print("Server started\nWaiting for connection...")
 
     def threadClient(self, conn, player):
-        self.players.append(p.Player(r.randint(0, 1230), r.randint(0, 670), 50, 50, (0, 200, 0)))
+        if self.nextPlayer < len(self.players):
+            self.players[player] = p.Player(r.randint(0, 1230), r.randint(0, 670), 50, 50, (0, 200, 0))
+        else:
+            self.players.append(p.Player(r.randint(0, 1230), r.randint(0, 670), 50, 50, (0, 200, 0)))
+
         conn.send(pickle.dumps(self.players[player]))
         reply = ""
         while True:
@@ -45,6 +48,7 @@ class Server:
         print("Lost connection")
         try:
             self.players[player] = p.Player(0, 0, 0, 0, (0, 0, 0))
+            self.players[player].currentWeapon = None
         except:
             pass
         self.nextPlayer = self.players.index(self.players[player])
@@ -55,8 +59,11 @@ class Server:
             conn, addr = self.soc.accept()
             print("Connected to:", addr)
 
-            nextPlayer = len(self.players)
-            start_new_thread(self.threadClient, (conn, nextPlayer))
+            currentPlayer = len(self.players)
+            if self.nextPlayer < currentPlayer:
+                start_new_thread(self.threadClient, (conn, self.nextPlayer))
+            else:
+                start_new_thread(self.threadClient, (conn, currentPlayer))
 
 
 s = Server()
