@@ -32,7 +32,7 @@ class Game:
                 if self.player.currentWeapon:
                     self.player.currentWeapon.shoot()
 
-            self.window.screen.fill((255, 255, 255))
+            self.window.screen.fill((169, 169, 169))
 
             self.update()
             self.render(self.window.screen)
@@ -46,6 +46,9 @@ class Game:
         self.player.render(screen)
 
         for player in self.players:
+            if player == self.player:
+                continue
+
             player.render(screen)
 
     def update(self):
@@ -53,4 +56,9 @@ class Game:
 
         self.player.update()
         for player in self.players:
+            if player == self.player:
+                continue
+            if player.currentWeapon:
+                player.currentWeapon.allowRotation = False
+
             player.update()

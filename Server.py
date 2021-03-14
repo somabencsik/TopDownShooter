@@ -11,7 +11,7 @@ class Server:
         self.server = "192.168.1.43"
         self.port = 5555
         self.soc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.nextPlayer = 4
+        self.nextPlayer = 0
         self.players = []
 
         try:
@@ -23,7 +23,7 @@ class Server:
         print("Server started\nWaiting for connection...")
 
     def threadClient(self, conn, player):
-        if self.nextPlayer < len(self.players):
+        if player < len(self.players):
             self.players[player] = p.Player(r.randint(0, 1230), r.randint(0, 670), 50, 50, (0, 200, 0))
         else:
             self.players.append(p.Player(r.randint(0, 1230), r.randint(0, 670), 50, 50, (0, 200, 0)))
@@ -51,7 +51,6 @@ class Server:
             self.players[player].currentWeapon = None
         except:
             pass
-        self.nextPlayer = self.players.index(self.players[player])
         conn.close()
 
     def run(self):
@@ -59,11 +58,16 @@ class Server:
             conn, addr = self.soc.accept()
             print("Connected to:", addr)
 
-            currentPlayer = len(self.players)
-            if self.nextPlayer < currentPlayer:
+            for player in self.players:
+                if player.width == 0:
+                    self.nextPlayer = self.players.index(player)
+                    break
+
+            if self.nextPlayer <= len(self.players):
                 start_new_thread(self.threadClient, (conn, self.nextPlayer))
+                self.nextPlayer = self.nextPlayer + 1
             else:
-                start_new_thread(self.threadClient, (conn, currentPlayer))
+                start_new_thread(self.threadClient, (conn, len(self.players)))
 
 
 s = Server()

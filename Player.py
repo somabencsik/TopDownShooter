@@ -16,6 +16,11 @@ class Player:
         self.yChange = 0
         self.currentWeapon = p.Pistol(player=self)
 
+    def __eq__(self, other):
+        if self.x == other.x and self.y == other.y:
+            return True
+        return False
+
     def render(self, screen):
         pygame.draw.rect(screen, self.color, (self.x, self.y, self.width, self.height))
         if self.currentWeapon:
