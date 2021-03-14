@@ -16,6 +16,8 @@ class Game:
         self.players = []
         self.weapons = []
 
+        self.gameManager = gm.GameManager(self.player, self.players)
+
     def run(self):
         while self.running:
             self.window.clock.tick(60)
@@ -54,6 +56,9 @@ class Game:
     def update(self):
         self.players = self.network.send(self.player)
 
+        self.gameManager.player = self.player
+        self.gameManager.enemies = self.players
+
         self.player.update()
         for player in self.players:
             if player == self.player:
@@ -62,3 +67,5 @@ class Game:
                 player.currentWeapon.allowRotation = False
 
             player.update()
+
+        self.gameManager.checkCollision()

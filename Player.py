@@ -15,6 +15,7 @@ class Player:
         self.xChange = 0
         self.yChange = 0
         self.currentWeapon = p.Pistol(player=self)
+        self.rect = pygame.Rect(self.x, self.y, self.width, self.height)
 
     def __eq__(self, other):
         if self.x == other.x and self.y == other.y:
@@ -22,7 +23,7 @@ class Player:
         return False
 
     def render(self, screen):
-        pygame.draw.rect(screen, self.color, (self.x, self.y, self.width, self.height))
+        pygame.draw.rect(screen, self.color, self.rect)
         if self.currentWeapon:
             self.currentWeapon.render(screen)
 
@@ -31,6 +32,8 @@ class Player:
         self.y = self.y + self.yChange
         if self.currentWeapon:
             self.currentWeapon.update()
+
+        self.rect = pygame.Rect(self.x, self.y, self.width, self.height)
 
     # TODO: More detailed hit: Shoot in head, middle, foot
     def hit(self, damage):
