@@ -5,17 +5,18 @@ class GameManager:
 
     def checkCollision(self):
         # TODO: Player - Weapon
+        # TODO: Enemy - Bullet
 
         for enemy in self.enemies:
             if enemy == self.player:
                 continue
 
-            for bullet in enemy.currentWeapon.bullets:
-                if self.playerBulletIntersection(bullet):
-                    self.player.hit(20)
-
-        # TODO: Enemy - Bullet
-        pass
+            if enemy.currentWeapon:
+                for bullet in enemy.currentWeapon.bullets[:]:
+                    hit = self.playerBulletIntersection(bullet)
+                    if hit:
+                        self.player.hit(20)
+                        enemy.currentWeapon.bullets.remove(bullet)
 
     def playerBulletIntersection(self, bullet):
         bulletCenter = (bullet.x + bullet.rad / 2, bullet.y + bullet.rad / 2)

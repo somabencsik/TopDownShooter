@@ -65,6 +65,7 @@ class Game:
                 continue
             if player.currentWeapon:
                 player.currentWeapon.allowRotation = False
+            player.checkForDeath = False
 
             player.update()
 

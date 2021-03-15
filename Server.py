@@ -22,6 +22,11 @@ class Server:
         self.soc.listen(4)
         print("Server started\nWaiting for connection...")
 
+    def zeroThePlayer(self, player):
+        self.players[player] = p.Player(0, 0, 0, 0, (0, 0, 0))
+        self.players[player].currentWeapon.bullets.clear()
+        self.players[player].currentWeapon = None
+
     def threadClient(self, conn, player):
         if player < len(self.players):
             self.players[player] = p.Player(r.randint(0, 1230), r.randint(0, 670), 50, 50, (0, 200, 0))
@@ -29,10 +34,10 @@ class Server:
             self.players.append(p.Player(r.randint(0, 1230), r.randint(0, 670), 50, 50, (0, 200, 0)))
 
         conn.send(pickle.dumps(self.players[player]))
-        reply = ""
         while True:
             try:
                 data = pickle.loads(conn.recv(2048 * 10))
+
                 self.players[player] = data
 
                 if not data:
@@ -47,8 +52,7 @@ class Server:
 
         print("Lost connection")
         try:
-            self.players[player] = p.Player(0, 0, 0, 0, (0, 0, 0))
-            self.players[player].currentWeapon = None
+            self.zeroThePlayer(self.players[player])
         except:
             pass
         conn.close()
