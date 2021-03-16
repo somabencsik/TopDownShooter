@@ -15,6 +15,7 @@ class Pistol:
         self.width = 40
         self.height = 15
         self.angle = 0.0
+        self.damage = 20
         self.bulletSpeed = 10
         self.bullets = []
         self.allowRotation = True

@@ -22,11 +22,6 @@ class Server:
         self.soc.listen(4)
         print("Server started\nWaiting for connection...")
 
-    def zeroThePlayer(self, player):
-        self.players[player] = p.Player(0, 0, 0, 0, (0, 0, 0))
-        self.players[player].currentWeapon.bullets.clear()
-        self.players[player].currentWeapon = None
-
     def threadClient(self, conn, player):
         if player < len(self.players):
             self.players[player] = p.Player(r.randint(0, 1230), r.randint(0, 670), 50, 50, (0, 200, 0))
@@ -52,7 +47,9 @@ class Server:
 
         print("Lost connection")
         try:
-            self.zeroThePlayer(self.players[player])
+            self.players[player] = p.Player(0, 0, 0, 0, (0, 0, 0))
+            self.players[player].currentWeapon.bullets.clear()
+            self.players[player].currentWeapon = None
         except:
             pass
         conn.close()
