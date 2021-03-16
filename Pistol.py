@@ -29,7 +29,7 @@ class Pistol:
             self.y = self.owner.y + 25
 
             if self.allowRotation:
-                pistolImage, pistolImageRect = self.rotate(screen)
+                pistolImage, pistolImageRect = self.rotate()
                 screen.blit(pistolImage, pistolImageRect.topleft)
             else:
                 pistolImage = pygame.image.fromstring(self.pistolString, (self.width, self.height), "RGBA")
@@ -68,7 +68,7 @@ class Pistol:
                                 )
             self.shootCountdown = 30
 
-    def rotate(self, screen):
+    def rotate(self):
         pistolImage = pygame.image.fromstring(self.pistolString, (self.width, self.height), "RGBA")
 
         pistolPos = (self.x, self.y)

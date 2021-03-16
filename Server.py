@@ -42,22 +42,22 @@ class Server:
                     reply = self.players
 
                 conn.sendall(pickle.dumps(reply))
-            except:
-                break
+            except Exception as e:
+                print(e)
 
         print("Lost connection")
         try:
             self.players[player] = p.Player(0, 0, 0, 0, (0, 0, 0))
             self.players[player].currentWeapon.bullets.clear()
             self.players[player].currentWeapon = None
-        except:
-            pass
+        except Exception as e:
+            print(e)
         conn.close()
 
     def run(self):
         while True:
-            conn, addr = self.soc.accept()
-            print("Connected to:", addr)
+            conn, address = self.soc.accept()
+            print("Connected to:", address)
 
             for player in self.players:
                 if player.width == 0:

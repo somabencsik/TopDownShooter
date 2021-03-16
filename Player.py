@@ -67,7 +67,8 @@ class Player:
         font = pygame.font.SysFont('arial', 32)
         text = font.render("Respawn in " + str(int(self.respawnTime / 60)), True, (200, 0, 0))
         textRect = text.get_rect()
-        textRect.center = (pygame.display.get_surface().get_width() // 2, pygame.display.get_surface().get_height() // 2)
+        textRect.center = (pygame.display.get_surface().get_width() // 2,
+                           pygame.display.get_surface().get_height() // 2)
         return text, textRect
 
     # TODO: More detailed hit: Shoot in head, middle, foot

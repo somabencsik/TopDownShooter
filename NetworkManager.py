@@ -7,7 +7,7 @@ class Network:
         self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.server = "192.168.1.43"
         self.port = 5555
-        self.addr = (self.server, self.port)
+        self.address = (self.server, self.port)
         self.p = self.connect()
 
     def getP(self):
@@ -15,10 +15,10 @@ class Network:
 
     def connect(self):
         try:
-            self.client.connect(self.addr)
+            self.client.connect(self.address)
             return pickle.loads(self.client.recv(2048 * 10))
-        except:
-            pass
+        except Exception as e:
+            print(e)
 
     def send(self, data):
         try:
@@ -26,5 +26,3 @@ class Network:
             return pickle.loads(self.client.recv(2048 * 10))
         except socket.error as e:
             print(e)
-
-
