@@ -1,6 +1,5 @@
-import Window as w
-import GameManager as gm
-import NetworkManager as nm
+from code.Client import GameManager as gm, Window as w
+from code.Server import NetworkManager as nm
 import pygame
 pygame.init()
 

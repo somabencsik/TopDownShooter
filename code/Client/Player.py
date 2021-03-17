@@ -1,4 +1,4 @@
-import Pistol as p
+from code.Client import Pistol as p
 import random as r
 import pygame
 pygame.init()

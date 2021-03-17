@@ -1,6 +1,7 @@
 import math
-import Bullet as b
+from code.Client import Bullet as b
 import pygame
+import os
 
 pygame.init()
 
@@ -11,7 +12,8 @@ class Pistol:
         self.y = y
         self.shootCountdown = 0
         self.owner = player
-        self.pistolString = pygame.image.tostring(pygame.image.load("Pistol.png"), "RGBA")
+        image = os.path.join("C:\\Users\\somabencsik\\Documents\\python\\TopDownShooter\\Assets\\Images\\Pistol.png")
+        self.pistolImage = pygame.image.tostring(pygame.image.load(image), "RGBA")
         self.width = 40
         self.height = 15
         self.angle = 0.0
@@ -22,7 +24,7 @@ class Pistol:
 
     def render(self, screen):
         if not self.owner:
-            pistolImage = pygame.image.fromstring(self.pistolString, (self.width, self.height), "RGBA")
+            pistolImage = pygame.image.fromstring(self.pistolImage, (self.width, self.height), "RGBA")
             screen.blit(pistolImage, (self.x, self.y))
         else:
             self.x = self.owner.x + 25
@@ -32,7 +34,7 @@ class Pistol:
                 pistolImage, pistolImageRect = self.rotate()
                 screen.blit(pistolImage, pistolImageRect.topleft)
             else:
-                pistolImage = pygame.image.fromstring(self.pistolString, (self.width, self.height), "RGBA")
+                pistolImage = pygame.image.fromstring(self.pistolImage, (self.width, self.height), "RGBA")
 
                 pistolPos = (self.x, self.y)
                 pistolRect = pistolImage.get_rect(center=pistolPos)
@@ -69,7 +71,7 @@ class Pistol:
             self.shootCountdown = 30
 
     def rotate(self):
-        pistolImage = pygame.image.fromstring(self.pistolString, (self.width, self.height), "RGBA")
+        pistolImage = pygame.image.fromstring(self.pistolImage, (self.width, self.height), "RGBA")
 
         pistolPos = (self.x, self.y)
         pistolRect = pistolImage.get_rect(center=pistolPos)

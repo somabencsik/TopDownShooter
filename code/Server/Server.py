@@ -3,7 +3,7 @@ from _thread import *
 import pickle
 import random as r
 
-import Player as p
+from code.Client import Player as p
 
 
 class Server:

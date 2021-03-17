@@ -1,4 +1,4 @@
-import Game as g
+from Client import Game as g
 
 
 def startGame():
